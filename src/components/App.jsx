@@ -1,67 +1,68 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import Form from './Form/Form';
-import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
+import Form from './Form';
+import Contacts from './Contacts';
+import Container from './Container';
 
-class App extends Component {
+export default class App extends Component {
   state = {
     contacts: [],
-    filter: '',
+    name: '',
+    number: '',
   };
 
-  submitHandler = data => {
-    const normalizedName = data.name.toLowerCase();
-    if (
-      this.state.contacts.some(
-        ({ name }) => name.toLowerCase() === normalizedName
-      )
-    ) {
-      alert(`${data.name} is already in the contacts`);
-      return;
-    }
-    this.setState(prev => {
-      return {
-        ...prev,
-        contacts: [...prev.contacts, { id: nanoid(), ...data }],
-      };
+  handleChange = e => {
+    const { value, name } = e.currentTarget;
+    this.setState({
+      [name]: value,
     });
   };
 
-  onFilterChange = e => {
-    this.setState({ filter: e.target.value });
-  };
-
-  onDeleteClick = id => {
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        contacts: prevState.contacts.filter(contact => contact.id !== id),
-      };
-    });
+  addContact = e => {
+    e.preventDefault();
+    const { name, number } = this.state;
+    this.setState(({ contacts }) => ({
+      contacts: [...contacts, { name: name, number: number, id: nanoid() }],
+      name: '',
+      number: '',
+    }));
   };
 
   render() {
-    const { submitHandler, onFilterChange, onDeleteClick } = this;
-    const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLowerCase();
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
+    const { contacts, name, number } = this.state;
     return (
-      <div>
-        <h1>Phonebook</h1>
-        <Form addContact={submitHandler} />
-
-        <h2>Contacts</h2>
-        <Filter filter={filter} onFilterChange={onFilterChange} />
-        <ContactList
-          contacts={filteredContacts}
-          onDeleteClick={onDeleteClick}
-        />
-      </div>
+      <>
+        <Container title="Phonebook">
+          <Form
+            name={name}
+            number={number}
+            addContact={this.addContact}
+            onChange={this.handleChange}
+          />
+        </Container>
+        <Container title="Contacts">
+          <Contacts contacts={contacts} />
+        </Container>
+      </>
     );
   }
 }
 
-export default App;
+/* <form onSubmit={this.addContact}>
+          <p>Name</p>
+          <input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            onChange={this.handleChange}
+          />
+          <button type="submit">Add contact</button>
+        </form> */
+
+// <ul>
+//   {contacts.map(({ name, id }) => (
+//     <li key={id}>{name}</li>
+//   ))}
+// </ul>
