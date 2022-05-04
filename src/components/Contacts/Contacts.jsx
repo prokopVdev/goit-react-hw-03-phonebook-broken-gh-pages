@@ -1,13 +1,23 @@
 import s from './Contacts.module.css';
-
-export default function Contacts({ contacts }) {
+import { FaRegUserCircle, FaBan } from 'react-icons/fa';
+export default function Contacts({ contacts, remove }) {
   return (
-    <ol className={s.list}>
+    <ul className={s.list}>
       {contacts.map(({ name, number, id }) => (
         <li key={id}>
-          {name}: {number}
+          <p>
+            <FaRegUserCircle size="13px" /> {name}: {number}
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              remove(id);
+            }}
+          >
+            <FaBan />
+          </button>
         </li>
       ))}
-    </ol>
+    </ul>
   );
 }
