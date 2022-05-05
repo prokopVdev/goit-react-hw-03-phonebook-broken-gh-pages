@@ -63,22 +63,3 @@ export default class App extends Component {
     );
   }
 }
-
-/* <form onSubmit={this.addContact}>
-          <p>Name</p>
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            onChange={this.handleChange}
-          />
-          <button type="submit">Add contact</button>
-        </form> */
-
-// <ul>
-//   {contacts.map(({ name, id }) => (
-//     <li key={id}>{name}</li>
-//   ))}
-// </ul>

@@ -58,5 +58,3 @@ export default class Form extends Component {
     );
   }
 }
-
-// ({ addContact, onChange, name, number })

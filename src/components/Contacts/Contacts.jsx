@@ -1,5 +1,7 @@
 import s from './Contacts.module.css';
 import { FaRegUserCircle, FaBan } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+
 export default function Contacts({ contacts, remove }) {
   return (
     <ul className={s.list}>
@@ -21,3 +23,14 @@ export default function Contacts({ contacts, remove }) {
     </ul>
   );
 }
+
+Contacts.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })
+  ),
+  remove: PropTypes.func.isRequired,
+};
