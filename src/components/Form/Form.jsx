@@ -23,6 +23,7 @@ export default class Form extends Component {
       return Notify.failure(`${name} is already in contacts list`);
     }
     this.props.addContact({ name, number });
+    this.setState({ name: '', number: '' });
   };
 
   render() {

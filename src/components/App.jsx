@@ -16,6 +16,22 @@ export default class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contactsList = localStorage.getItem('Contacts');
+    const parsedContacts = JSON.parse(contactsList);
+    if (parsedContacts) {
+      this.setState({
+        contacts: parsedContacts,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('Contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = info => {
     this.setState(({ contacts }) => ({
       contacts: [{ ...info, id: nanoid() }, ...contacts],
@@ -34,7 +50,7 @@ export default class App extends Component {
     });
   };
 
-  delete = id => {
+  remove = id => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
@@ -57,7 +73,7 @@ export default class App extends Component {
         </Container>
         <Container title="Contacts">
           <Filter value={filter} onChange={this.changeFilter} />
-          <Contacts remove={this.delete} contacts={filteredContacts} />
+          <Contacts remove={this.remove} contacts={filteredContacts} />
         </Container>
       </>
     );
